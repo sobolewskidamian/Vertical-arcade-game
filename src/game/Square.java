@@ -59,9 +59,9 @@ public class Square {
         x += (int) xvel;
 
         if (x >= App.width)
-            x = 0;
-        else if (x <= 0)
-            x = App.width;
+            x = -width + 1;
+        else if (x <= -width)
+            x = App.width - 1;
     }
 
     public Render getRender() {

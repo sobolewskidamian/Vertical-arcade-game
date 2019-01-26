@@ -115,7 +115,6 @@ public class Game {
         if ((blockerBool && pipesUnderMiddleMiddle.size() != 0)) {
             Blocker blocker = new Blocker(square);
             blockers.add(blocker);
-            System.out.println(pipesUnderMiddleMiddle.size());
             if (pipesUnderMiddleMiddle.size() != 0)
                 blocker.synchronizeWithOtherPipe(pipesUnderMiddleMiddle.get(0).yvel, pipesUnderMiddleMiddle.get(0).delay);
         }

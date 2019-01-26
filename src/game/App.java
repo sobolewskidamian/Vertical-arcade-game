@@ -10,7 +10,8 @@ public class App {
         JFrame frame = new JFrame();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(width, height);
+        frame.setSize(width + 16, height + 39);
+
 
         Keyboard keyboard = Keyboard.getInstance();
         frame.addKeyListener(keyboard);
