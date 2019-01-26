@@ -18,6 +18,8 @@ public class Square {
     public double xvel;
     public double xvalue = 3;
     public double gravity;
+    public boolean rotation;
+    private int rotationInt;
 
     private int jumpDelay;
 
@@ -34,6 +36,8 @@ public class Square {
         gravity = 0.5;
         jumpDelay = 0;
         dead = false;
+        rotation = false;
+        rotationInt = 0;
 
         keyboard = Keyboard.getInstance();
     }
@@ -79,7 +83,10 @@ public class Square {
         r.transform = new AffineTransform();
         r.transform.translate(x + width / 2, y + height / 2);
         r.transform.translate(-width / 2, -height / 2);
-
+        if (rotation) {
+            rotationInt++;
+            r.transform.rotate(rotationInt/1.9);
+        }
         return r;
     }
 }

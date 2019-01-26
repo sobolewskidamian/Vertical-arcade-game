@@ -11,6 +11,10 @@ public abstract class Obstruction {
     private Square square;
     protected int y;
 
+    private boolean shake = true;
+    private int deltaShake = 0;
+    private int amountOfShakes = 0;
+
     public Obstruction(Square square) {
         this.gravity = 0.5;
         this.keyboard = Keyboard.getInstance();
@@ -41,5 +45,23 @@ public abstract class Obstruction {
 
         if (yvel < 0 && this.square.y <= App.height / 2 - height / 2)
             y -= (int) yvel;
+    }
+
+    protected void shake() {
+        if (amountOfShakes < 4*2*6) {
+            deltaShake += 1;
+
+            if (deltaShake == 4) {
+                deltaShake = 0;
+                shake = !shake;
+            }
+
+            if (shake)
+                y += deltaShake;
+            else
+                y -= deltaShake;
+
+            amountOfShakes++;
+        }
     }
 }

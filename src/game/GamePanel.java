@@ -22,12 +22,12 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2D = (Graphics2D) g;
         for (Render r : game.getRenders())
-            if (r.transform != null)
+            if (r.transform != null) {
                 g2D.drawImage(r.image, r.transform, null);
-            else
+            }
+            else {
                 g.drawImage(r.image, r.x, r.y, null);
-
-        g2D.setColor(Color.BLACK);
+            }
 
         if (!game.started) {
             g2D.setFont(new Font("Arial", Font.PLAIN, 20));

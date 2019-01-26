@@ -1,6 +1,6 @@
 package game;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
@@ -69,6 +69,13 @@ public class Pipe extends Obstruction {
         BufferedImage img = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
         r.image = img;
 
+        r.color = Color.CYAN;
+
         return r;
+    }
+
+    public void shake() {
+        super.shake();
+        y = super.y;
     }
 }

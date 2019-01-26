@@ -1,6 +1,6 @@
 package game;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class Render {
@@ -8,6 +8,7 @@ public class Render {
     public int y;
     public Image image;
     public AffineTransform transform;
+    public Color color = Color.black;
 
     public Render() {
     }

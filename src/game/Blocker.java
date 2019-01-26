@@ -1,7 +1,5 @@
 package game;
 
-import java.awt.Image;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 public class Blocker extends Obstruction {
@@ -28,7 +26,6 @@ public class Blocker extends Obstruction {
         if ((y + height >= this.y && y + height <= this.y + this.height) || (y >= this.y && y <= this.y + this.height))
             if ((x + height >= this.x && x + height <= this.x + this.height) || (x >= this.x && x <= this.x + this.height))
                 return true;
-
         return false;
     }
 
@@ -46,5 +43,10 @@ public class Blocker extends Obstruction {
         r.image = img;
 
         return r;
+    }
+
+    public void shake() {
+        super.shake();
+        y = super.y;
     }
 }

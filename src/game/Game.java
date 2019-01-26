@@ -47,8 +47,10 @@ public class Game {
         this.square.update();
 
         if (gameover) {
-            square.yvel = 0;
-            square.xvel = 0;
+            //square.yvel = 0;
+            //square.xvel = 0;
+            square.rotation = true;
+            shake();
             return;
         }
 
@@ -113,33 +115,11 @@ public class Game {
         }
 
         if ((blockerBool && pipesUnderMiddleMiddle.size() != 0)) {
-            Blocker blocker;
-            if (pipesUnderMiddleMiddle.size() != 0) {
-                int index = pipesUnderMiddleMiddle.size() - 1;
-                blocker = new Blocker(square, pipesUnderMiddleMiddle.get(index).width + pipesUnderMiddleMiddle.get(index).widthBeetweenTwoPipes / 2);
-                blocker.synchronizeWithOtherPipe(pipesUnderMiddleMiddle.get(index).yvel, pipesUnderMiddleMiddle.get(index).delay);
-            } else blocker = new Blocker(square);
-            blockers.add(blocker);
+            addBolcker();
         }
 
         if (inMiddle || pipes.size() == 0) {
-            Pipe leftPipe;
-            Pipe rightPipe;
-
-            Pipe pipe = new Pipe("left", this.square, score);
-            pipes.add(pipe);
-            leftPipe = pipe;
-
-            pipe = new Pipe("right", this.square, score);
-            pipes.add(pipe);
-            rightPipe = pipe;
-
-            leftPipe.x = 0;
-            leftPipe.width = App.width - rightPipe.width - rightPipe.widthBeetweenTwoPipes;
-            leftPipe.widthBeetweenTwoPipes = rightPipe.widthBeetweenTwoPipes;
-
-            leftPipe.synchronizeWithOtherPipe(Synyvel, Syndelay);
-            rightPipe.synchronizeWithOtherPipe(Synyvel, Syndelay);
+            addTwoPipes(Synyvel, Syndelay);
         }
 
         for (Pipe pipe : pipes) {
@@ -149,6 +129,36 @@ public class Game {
         for (Blocker blocker : blockers) {
             blocker.update();
         }
+    }
+
+    private void addBolcker() {
+        Blocker blocker;
+        if (pipesUnderMiddleMiddle.size() != 0) {
+            int index = pipesUnderMiddleMiddle.size() - 1;
+            blocker = new Blocker(square, pipesUnderMiddleMiddle.get(index).width + pipesUnderMiddleMiddle.get(index).widthBeetweenTwoPipes / 2);
+            blocker.synchronizeWithOtherPipe(pipesUnderMiddleMiddle.get(index).yvel, pipesUnderMiddleMiddle.get(index).delay);
+        } else blocker = new Blocker(square);
+        blockers.add(blocker);
+    }
+
+    private void addTwoPipes(double Synyvel, int Syndelay) {
+        Pipe leftPipe;
+        Pipe rightPipe;
+
+        Pipe pipe = new Pipe("left", this.square, score);
+        pipes.add(pipe);
+        leftPipe = pipe;
+
+        pipe = new Pipe("right", this.square, score);
+        pipes.add(pipe);
+        rightPipe = pipe;
+
+        leftPipe.x = 0;
+        leftPipe.width = App.width - rightPipe.width - rightPipe.widthBeetweenTwoPipes;
+        leftPipe.widthBeetweenTwoPipes = rightPipe.widthBeetweenTwoPipes;
+
+        leftPipe.synchronizeWithOtherPipe(Synyvel, Syndelay);
+        rightPipe.synchronizeWithOtherPipe(Synyvel, Syndelay);
     }
 
     private void checkForCollisions() {
@@ -169,6 +179,16 @@ public class Game {
         if (square.y >= App.height - square.height/* || square.x <= 0 || square.x + square.width >= App.width*/) {
             gameover = true;
             square.dead = true;
+        }
+    }
+
+    private void shake() {
+        for (Pipe pipe : pipes) {
+            pipe.shake();
+        }
+
+        for (Blocker blocker : blockers) {
+            blocker.shake();
         }
     }
 }
