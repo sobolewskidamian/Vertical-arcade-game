@@ -10,6 +10,8 @@ public class Game {
     private Keyboard keyboard;
     private ArrayList<Pipe> pipes;
     private ArrayList<Pipe> pipesUnderMiddle;
+    private ArrayList<Pipe> pipesUnderMiddleMiddle;
+    private ArrayList<Blocker> blockers;
 
     public int score;
     public Boolean gameover;
@@ -30,6 +32,8 @@ public class Game {
         this.square = new Square();
         pipes = new ArrayList<>();
         pipesUnderMiddle = new ArrayList<>();
+        pipesUnderMiddleMiddle = new ArrayList<>();
+        blockers = new ArrayList<>();
     }
 
     public void update() {
@@ -56,6 +60,8 @@ public class Game {
         ArrayList<Render> renders = new ArrayList<>();
         for (Pipe pipe : pipes)
             renders.add(pipe.getRender());
+        for (Blocker blocker : blockers)
+            renders.add(blocker.getRender());
         renders.add(this.square.getRender());
         return renders;
     }
@@ -81,11 +87,14 @@ public class Game {
         boolean inMiddle = false;
         double Synyvel = 0;
         int Syndelay = 0;
+        boolean blockerBool = false;
 
         for (Pipe pipe : pipes) {
             if (pipe.y > App.height) {
                 pipes.remove(pipe);
                 pipesUnderMiddle.remove(pipe);
+                if (pipe.orientation.equals("left"))
+                    pipesUnderMiddleMiddle.remove(pipe);
                 break;
             } else if (pipe.y >= App.height / 2 && !pipesUnderMiddle.contains(pipe)) {
                 inMiddle = true;
@@ -95,6 +104,20 @@ public class Game {
                 if (pipe.orientation.equals("left"))
                     score++;
             }
+            if (pipe.y >= App.height / 4 && !pipesUnderMiddleMiddle.contains(pipe)) {
+                if (pipe.orientation.equals("left")) {
+                    pipesUnderMiddleMiddle.add(pipe);
+                    blockerBool = true;
+                }
+            }
+        }
+
+        if ((blockerBool && pipesUnderMiddleMiddle.size() != 0)) {
+            Blocker blocker = new Blocker(square);
+            blockers.add(blocker);
+            System.out.println(pipesUnderMiddleMiddle.size());
+            if (pipesUnderMiddleMiddle.size() != 0)
+                blocker.synchronizeWithOtherPipe(pipesUnderMiddleMiddle.get(0).yvel, pipesUnderMiddleMiddle.get(0).delay);
         }
 
         if (inMiddle || pipes.size() == 0) {
@@ -119,6 +142,10 @@ public class Game {
         for (Pipe pipe : pipes) {
             pipe.update();
         }
+
+        for (Blocker blocker : blockers) {
+            blocker.update();
+        }
     }
 
     private void checkForCollisions() {
@@ -129,7 +156,14 @@ public class Game {
             }
         }
 
-        if (square.y >= App.height - square.height || square.x <= 0 || square.x + square.width >= App.width) {
+        for (Blocker blocker : blockers) {
+            if (blocker.collides(square.x, square.y, square.width, square.height)) {
+                gameover = true;
+                square.dead = true;
+            }
+        }
+
+        if (square.y >= App.height - square.height/* || square.x <= 0 || square.x + square.width >= App.width*/) {
             gameover = true;
             square.dead = true;
         }

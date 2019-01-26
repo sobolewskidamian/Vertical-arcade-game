@@ -4,26 +4,22 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
-public class Pipe {
+public class Pipe extends Obstruction {
     private Square square;
 
-    public int x;
-    public int y;
     public int width;
-    public int height = 10;
     public int widthBeetweenTwoPipes;
 
-    public double yvel = 0;
-    public double gravity = 0.5;
-    public int delay;
+    public int x;
+    public int y = -height;
 
     public String orientation;
 
-    private Image image;
     private Keyboard keyboard;
     private int score;
 
     public Pipe(String orientation, Square square, int score) {
+        super(square);
         this.orientation = orientation;
         this.keyboard = Keyboard.getInstance();
         this.square = square;
@@ -50,23 +46,8 @@ public class Pipe {
     }
 
     public void update() {
-        yvel += gravity;
-
-        if (delay > 0)
-            delay--;
-
-        if (delay <= 0 && (keyboard.isDown(KeyEvent.VK_LEFT) || keyboard.isDown(KeyEvent.VK_RIGHT))) {
-            yvel = -10;
-            delay = 10;
-        }
-
-        if (yvel < 0 && this.square.y <= App.height / 2 - height / 2)
-            y -= (int) yvel;
-    }
-
-    public void synchronizeWithOtherPipe(double yvel, int delay) {
-        this.yvel = yvel;
-        this.delay = delay;
+        super.update();
+        y = super.y;
     }
 
     public boolean collides(int x, int y, int width, int height) {

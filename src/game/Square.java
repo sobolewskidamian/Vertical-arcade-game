@@ -29,8 +29,8 @@ public class Square {
         xvel = 0;
         width = 42;
         height = 42;
-        x = App.width / 2 - width/2;
-        y = App.height / 2 - height/2;
+        x = App.width / 2 - width / 2;
+        y = App.height / 2 - height / 2;
         gravity = 0.5;
         jumpDelay = 0;
         dead = false;
@@ -53,10 +53,15 @@ public class Square {
                 xvel = this.xvalue;
         }
 
-        if (yvel > 0 || y > App.height / 2 - height/2)
+        if (yvel > 0 || y > App.height / 2 - height / 2)
             y += (int) yvel;
 
         x += (int) xvel;
+
+        if (x >= App.width)
+            x = 0;
+        else if (x <= 0)
+            x = App.width;
     }
 
     public Render getRender() {
