@@ -113,10 +113,13 @@ public class Game {
         }
 
         if ((blockerBool && pipesUnderMiddleMiddle.size() != 0)) {
-            Blocker blocker = new Blocker(square);
+            Blocker blocker;
+            if (pipesUnderMiddleMiddle.size() != 0) {
+                int index = pipesUnderMiddleMiddle.size() - 1;
+                blocker = new Blocker(square, pipesUnderMiddleMiddle.get(index).width + pipesUnderMiddleMiddle.get(index).widthBeetweenTwoPipes / 2);
+                blocker.synchronizeWithOtherPipe(pipesUnderMiddleMiddle.get(index).yvel, pipesUnderMiddleMiddle.get(index).delay);
+            } else blocker = new Blocker(square);
             blockers.add(blocker);
-            if (pipesUnderMiddleMiddle.size() != 0)
-                blocker.synchronizeWithOtherPipe(pipesUnderMiddleMiddle.get(0).yvel, pipesUnderMiddleMiddle.get(0).delay);
         }
 
         if (inMiddle || pipes.size() == 0) {
@@ -133,6 +136,7 @@ public class Game {
 
             leftPipe.x = 0;
             leftPipe.width = App.width - rightPipe.width - rightPipe.widthBeetweenTwoPipes;
+            leftPipe.widthBeetweenTwoPipes = rightPipe.widthBeetweenTwoPipes;
 
             leftPipe.synchronizeWithOtherPipe(Synyvel, Syndelay);
             rightPipe.synchronizeWithOtherPipe(Synyvel, Syndelay);

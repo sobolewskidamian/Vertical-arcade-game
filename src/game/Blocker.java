@@ -19,6 +19,11 @@ public class Blocker extends Obstruction {
         this.x = (int) (Math.random() * (App.width) - this.height);
     }
 
+    public Blocker(Square square, int x) {
+        super(square);
+        this.x = x - width / 2;
+    }
+
     public boolean collides(int x, int y, int width, int height) {
         if ((y + height >= this.y && y + height <= this.y + this.height) || (y >= this.y && y <= this.y + this.height))
             if ((x + height >= this.x && x + height <= this.x + this.height) || (x >= this.x && x <= this.x + this.height))
