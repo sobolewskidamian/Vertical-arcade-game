@@ -11,15 +11,28 @@ public class Blocker extends Obstruction {
     public int height = 20;
 
     private int score;
+    private boolean leftDirection;
 
-    public Blocker(Square square) {
+    public Blocker(Square square, int score) {
         super(square);
         this.x = (int) (Math.random() * (App.width) - this.height);
+        this.score = score;
+        randomBool();
     }
 
-    public Blocker(Square square, int x) {
+    public Blocker(Square square, int score, int x) {
         super(square);
-        this.x = x - width / 2;
+        this.x = x;
+        this.score = score;
+        randomBool();
+    }
+
+    private void randomBool() {
+        double random = Math.random();
+        if (random < 0.5)
+            leftDirection = true;
+        else
+            leftDirection = false;
     }
 
     public boolean collides(int x, int y, int width, int height) {
@@ -32,6 +45,21 @@ public class Blocker extends Obstruction {
     public void update() {
         super.update();
         y = super.y;
+
+        int constant = 0;
+        if (score >= 0)
+            constant = 3;
+        else if (score >= 20)
+            constant = 2;
+        else if (score >= 10)
+            constant = 1;
+
+        if (leftDirection)
+            constant *= -1;
+
+        x += constant;
+        if (x <= 0 || x >= App.width - width)
+            leftDirection = !leftDirection;
     }
 
     public Render getRender() {

@@ -139,9 +139,9 @@ public class Game {
         Blocker blocker;
         if (pipesUnderMiddleMiddle.size() != 0) {
             int index = pipesUnderMiddleMiddle.size() - 1;
-            blocker = new Blocker(square, pipesUnderMiddleMiddle.get(index).width + pipesUnderMiddleMiddle.get(index).widthBeetweenTwoPipes / 2);
+            blocker = new Blocker(square, score, pipesUnderMiddleMiddle.get(index).width + pipesUnderMiddleMiddle.get(index).widthBeetweenTwoPipes / 2);
             blocker.synchronizeWithOtherPipe(pipesUnderMiddleMiddle.get(index).yvel, pipesUnderMiddleMiddle.get(index).delay);
-        } else blocker = new Blocker(square);
+        } else blocker = new Blocker(square, score);
         blockers.add(blocker);
     }
 
