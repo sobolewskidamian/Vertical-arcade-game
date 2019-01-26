@@ -47,7 +47,7 @@ public class Blocker extends Obstruction {
         y = super.y;
 
         int constant = 0;
-        if (score >= 0)
+        if (score >= 40)
             constant = 3;
         else if (score >= 20)
             constant = 2;
