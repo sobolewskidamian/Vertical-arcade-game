@@ -23,8 +23,8 @@ public class Blocker extends Obstruction {
     }
 
     public boolean collides(int x, int y, int width, int height) {
-        if ((y + height >= this.y && y + height <= this.y + this.height) || (y >= this.y && y <= this.y + this.height))
-            if ((x + height >= this.x && x + height <= this.x + this.height) || (x >= this.x && x <= this.x + this.height))
+        if ((y + height >= this.y && y + height <= this.y + this.height) || (y >= this.y && y <= this.y + this.height) || (this.y >= y && this.y + this.height <= y + height))
+            if ((x + height >= this.x && x + height <= this.x + this.height) || (x >= this.x && x <= this.x + this.height) || (this.x >= x && this.x + this.width <= x + width))
                 return true;
         return false;
     }

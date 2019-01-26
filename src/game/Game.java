@@ -114,6 +114,10 @@ public class Game {
             }
         }
 
+        for (Blocker blocker : blockers)
+            if (blocker.y > App.height)
+                blockers.remove(blocker);
+
         if ((blockerBool && pipesUnderMiddleMiddle.size() != 0)) {
             addBolcker();
         }
