@@ -85,7 +85,7 @@ public class Square {
         r.transform.translate(-width / 2, -height / 2);
         if (rotation) {
             rotationInt++;
-            r.transform.rotate(rotationInt/1.9);
+            r.transform.rotate(rotationInt / 50.0);
         }
         return r;
     }
