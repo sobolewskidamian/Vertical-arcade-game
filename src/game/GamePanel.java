@@ -12,7 +12,7 @@ public class GamePanel extends JPanel implements Runnable {
         new Thread(this).start();
     }
 
-    public void update() {
+    private void update() {
         this.game.update();
         repaint();
     }

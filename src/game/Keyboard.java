@@ -13,12 +13,10 @@ public class Keyboard implements KeyListener {
         keys = new boolean[256];
     }
 
-    public static Keyboard getInstance() {
-
+    static Keyboard getInstance() {
         if (instance == null) {
             instance = new Keyboard();
         }
-
         return instance;
     }
 
@@ -36,12 +34,10 @@ public class Keyboard implements KeyListener {
 
     public void keyTyped(KeyEvent e) {}
 
-    public boolean isDown(int key) {
-
+    boolean isDown(int key) {
         if (key >= 0 && key < keys.length) {
             return keys[key];
         }
-
         return false;
     }
 }

@@ -3,36 +3,38 @@ package game;
 import java.awt.event.KeyEvent;
 
 public abstract class Obstruction {
-    protected double yvel;
-    protected int delay;
-    private double gravity;
+    double yvel;
+    int delay;
+    int height;
+    int y;
     private Keyboard keyboard;
-    protected int height;
     private Square square;
-    protected int y;
+    private double gravity;
+    private boolean shake;
+    private int deltaShake;
+    private int amountOfShakes;
 
-    private boolean shake = true;
-    private int deltaShake = 0;
-    private int amountOfShakes = 0;
-
-    public Obstruction(Square square) {
+    Obstruction(Square square) {
         this.gravity = 0.5;
         this.keyboard = Keyboard.getInstance();
         this.height = 10;
         this.y = -height;
         this.square = square;
+        this.shake = true;
+        this.deltaShake = 0;
+        this.amountOfShakes = 0;
     }
 
-    public abstract Render getRender();
+    abstract Render getRender();
 
-    public abstract boolean collides(int x, int y, int width, int height);
+    abstract boolean collides(int x, int y, int width, int height);
 
-    public void synchronizeWithOtherPipe(double yvel, int delay) {
+    void synchronizeWithOtherPipe(double yvel, int delay) {
         this.yvel = yvel;
         this.delay = delay;
     }
 
-    public void update() {
+    void update() {
         yvel += gravity;
 
         if (delay > 0)
@@ -47,8 +49,8 @@ public abstract class Obstruction {
             y -= (int) yvel;
     }
 
-    protected void shake() {
-        if (amountOfShakes < 4*2*6) {
+    void shake() {
+        if (amountOfShakes < 4 * 2 * 6) {
             deltaShake += 1;
 
             if (deltaShake == 4) {

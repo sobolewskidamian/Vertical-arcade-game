@@ -5,39 +5,35 @@ import java.util.ArrayList;
 
 public class Game {
     private int restartDelay;
-
-    Square square;
     private Keyboard keyboard;
     private ArrayList<Pipe> pipes;
     private ArrayList<Pipe> pipesUnderMiddle;
     private ArrayList<Pipe> pipesUnderMiddleMiddle;
     private ArrayList<Blocker> blockers;
-
-    public int score;
+    Square square;
+    int score;
     int highScore;
-    public Boolean gameover;
-    public Boolean started;
+    Boolean gameover;
+    Boolean started;
 
     public Game() {
         keyboard = Keyboard.getInstance();
         restart();
     }
 
-    public void restart() {
+    private void restart() {
         started = false;
         gameover = false;
-
         score = 0;
         restartDelay = 0;
-
-        this.square = new Square();
+        square = new Square();
         pipes = new ArrayList<>();
         pipesUnderMiddle = new ArrayList<>();
         pipesUnderMiddleMiddle = new ArrayList<>();
         blockers = new ArrayList<>();
     }
 
-    public void update() {
+    void update() {
         watchForStart();
 
         if (!started)
@@ -58,7 +54,7 @@ public class Game {
         setHighScore();
     }
 
-    public ArrayList<Render> getRenders() {
+    ArrayList<Render> getRenders() {
         ArrayList<Render> renders = new ArrayList<>();
         for (Pipe pipe : pipes)
             renders.add(pipe.getRender());
@@ -75,13 +71,10 @@ public class Game {
     }
 
     private void watchForReset() {
-        if (restartDelay > 0)
-            restartDelay--;
-
-        if (keyboard.isDown(KeyEvent.VK_SPACE) && restartDelay <= 0) {
+        restartDelay++;
+        if (keyboard.isDown(KeyEvent.VK_SPACE) && restartDelay > 40) {
             restart();
-            restartDelay = 10;
-            return;
+            restartDelay = 0;
         }
     }
 
@@ -114,13 +107,14 @@ public class Game {
             }
         }
 
-        for (Blocker blocker : blockers)
+        for (Blocker blocker : blockers) {
             if (blocker.y > App.height) {
                 blockers.remove(blocker);
                 break;
             }
+        }
 
-        if ((blockerBool && pipesUnderMiddleMiddle.size() != 0)) {
+        if (blockerBool && pipesUnderMiddleMiddle.size() != 0) {
             addBolcker();
         }
 
@@ -199,19 +193,15 @@ public class Game {
     }
 
     void deleteAllPipesAndBlockers() {
-        ArrayList<Pipe> toDeletePipes = new ArrayList<>();
-        ArrayList<Blocker> toDeleteBlockers = new ArrayList<>();
-        for (Pipe pipe : pipes)
-            toDeletePipes.add(pipe);
-        for (Blocker blocker : blockers)
-            toDeleteBlockers.add(blocker);
+        ArrayList<Pipe> toDeletePipes = new ArrayList<>(pipes);
+        ArrayList<Blocker> toDeleteBlockers = new ArrayList<>(blockers);
         for (Pipe act : toDeletePipes)
             pipes.remove(act);
         for (Blocker act : toDeleteBlockers)
             blockers.remove(act);
     }
 
-    void setHighScore() {
+    private void setHighScore() {
         if (score > highScore)
             highScore = score;
     }

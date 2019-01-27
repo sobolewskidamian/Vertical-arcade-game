@@ -3,12 +3,10 @@ package game;
 import java.awt.image.BufferedImage;
 
 public class Blocker extends Obstruction {
-    private Square square;
-
-    public int x;
-    public int y;
-    public int width = 20;
-    public int height = 20;
+    private int x;
+    int y;
+    private int width = 20;
+    private int height = 20;
 
     private int score;
     private boolean leftDirection;
@@ -29,23 +27,23 @@ public class Blocker extends Obstruction {
 
     private void randomBool() {
         double random = Math.random();
-        if (random < 0.5)
-            leftDirection = true;
-        else
-            leftDirection = false;
+        leftDirection = random < 0.5;
     }
 
-    public boolean collides(int x, int y, int width, int height) {
+    boolean collides(int x, int y, int width, int height) {
         if ((y + height >= this.y && y + height <= this.y + this.height) || (y >= this.y && y <= this.y + this.height) || (this.y >= y && this.y + this.height <= y + height))
             if ((x + height >= this.x && x + height <= this.x + this.height) || (x >= this.x && x <= this.x + this.height) || (this.x >= x && this.x + this.width <= x + width))
                 return true;
         return false;
     }
 
-    public void update() {
+    void update() {
         super.update();
+        updateX();
         y = super.y;
+    }
 
+    private void updateX(){
         int constant = 0;
         if (score >= 40)
             constant = 3;
@@ -62,18 +60,15 @@ public class Blocker extends Obstruction {
             leftDirection = !leftDirection;
     }
 
-    public Render getRender() {
+    Render getRender() {
         Render r = new Render();
         r.x = x;
         r.y = y;
-
-        BufferedImage img = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
-        r.image = img;
-
+        r.image = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
         return r;
     }
 
-    public void shake() {
+    void shake() {
         super.shake();
         y = super.y;
     }

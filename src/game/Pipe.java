@@ -5,31 +5,24 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 public class Pipe extends Obstruction {
-    private Square square;
-
-    public int width;
-    public int widthBeetweenTwoPipes;
-
-    public int x;
-    public int y = -height;
-
-    public String orientation;
-
-    private Keyboard keyboard;
+    int width;
+    int widthBeetweenTwoPipes;
+    int x;
+    int y;
+    String orientation;
     private int score;
     private Color color;
 
     public Pipe(String orientation, Square square, int score) {
         super(square);
         this.orientation = orientation;
-        this.keyboard = Keyboard.getInstance();
-        this.square = square;
         this.score = score;
+        this.y = -super.height;
         reset();
         setColor();
     }
 
-    public void reset() {
+    private void reset() {
         y = -height;
         if (orientation.equals("right")) {
             int range;
@@ -47,12 +40,12 @@ public class Pipe extends Obstruction {
         }
     }
 
-    public void update() {
+    void update() {
         super.update();
         y = super.y;
     }
 
-    public boolean collides(int x, int y, int width, int height) {
+    boolean collides(int x, int y, int width, int height) {
         if (y + height >= this.y && y <= this.y + this.height) {
             if ((orientation.equals("left") && x <= this.width) || (orientation.equals("right") && x + width >= this.x))
                 return true;
@@ -80,7 +73,7 @@ public class Pipe extends Obstruction {
         }
     }
 
-    public Render getRender() {
+    Render getRender() {
         Render r = new Render();
         r.x = x;
         r.y = y;
@@ -99,7 +92,7 @@ public class Pipe extends Obstruction {
         return r;
     }
 
-    public void shake() {
+    void shake() {
         super.shake();
         y = super.y;
     }
