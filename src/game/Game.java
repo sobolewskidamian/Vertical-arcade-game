@@ -15,9 +15,16 @@ public class Game {
     int highScore;
     Boolean gameover;
     Boolean started;
+    String ranking;
+    Boolean rankingDidntSet;
+    Boolean nickSet;
+    String nick;
+
 
     public Game() {
         keyboard = Keyboard.getInstance();
+        nickSet = false;
+        nick = "";
         restart();
     }
 
@@ -31,6 +38,8 @@ public class Game {
         pipesUnderMiddle = new ArrayList<>();
         pipesUnderMiddleMiddle = new ArrayList<>();
         blockers = new ArrayList<>();
+        ranking = "";
+        rankingDidntSet = true;
     }
 
     void update() {
@@ -42,6 +51,12 @@ public class Game {
         watchForReset();
 
         this.square.update();
+
+        if (gameover && rankingDidntSet) {
+            ranking = Ranking.parse(nick, score);
+            rankingDidntSet = false;
+        }
+
 
         if (gameover) {
             square.rotation = true;
@@ -65,7 +80,7 @@ public class Game {
     }
 
     private void watchForStart() {
-        if (!started && (keyboard.isDown(KeyEvent.VK_RIGHT) || keyboard.isDown(KeyEvent.VK_LEFT))) {
+        if (!started && nickSet && (keyboard.isDown(KeyEvent.VK_RIGHT) || keyboard.isDown(KeyEvent.VK_LEFT))) {
             started = true;
         }
     }

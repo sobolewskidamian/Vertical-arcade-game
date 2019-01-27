@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    private Game game;
+    Game game;
 
     public GamePanel() {
         this.game = new Game();
@@ -42,8 +42,19 @@ public class GamePanel extends JPanel implements Runnable {
             g2D.drawString("Press Space to restart", 10, 30);
             g2D.drawString("Your score: " + game.score, 10, 200);
             g2D.drawString("High score: " + game.highScore, 10, 240);
+
+            g2D.setFont(new Font("Arial", Font.BOLD, 13));
+            g2D.drawString("Top 10:", 10, 300);
+            g2D.setFont(new Font("Arial", Font.PLAIN, 13));
+            drawString(g2D, game.ranking, 10, 310);
         }
     }
+
+    void drawString(Graphics g, String text, int x, int y) {
+        for (String line : text.split("\n"))
+            g.drawString(line, x, y += g.getFontMetrics().getHeight());
+    }
+
 
     public void run() {
         try {
