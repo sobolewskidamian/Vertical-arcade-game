@@ -17,6 +17,7 @@ public class Pipe extends Obstruction {
 
     private Keyboard keyboard;
     private int score;
+    private Color color;
 
     public Pipe(String orientation, Square square, int score) {
         super(square);
@@ -25,6 +26,7 @@ public class Pipe extends Obstruction {
         this.square = square;
         this.score = score;
         reset();
+        setColor();
     }
 
     public void reset() {
@@ -58,6 +60,26 @@ public class Pipe extends Obstruction {
         return false;
     }
 
+    private void setColor() {
+        switch ((score / 5) % 5) {
+            case 0:
+                color = new Color(255, 14, 24);
+                break;
+            case 1:
+                color = new Color(46, 78, 255);
+                break;
+            case 2:
+                color = new Color(255, 66, 188);
+                break;
+            case 3:
+                color = new Color(135, 255, 90);
+                break;
+            default:
+                color = new Color(255, 126, 42);
+                break;
+        }
+    }
+
     public Render getRender() {
         Render r = new Render();
         r.x = x;
@@ -66,10 +88,13 @@ public class Pipe extends Obstruction {
         if (this.width <= 0)
             this.width = 1;
 
-        BufferedImage img = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
-        r.image = img;
+        BufferedImage img = new BufferedImage(this.width, this.height, BufferedImage.TYPE_3BYTE_BGR);
 
-        r.color = Color.CYAN;
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+                img.setRGB(i, j, color.getRGB());
+
+        r.image = img;
 
         return r;
     }

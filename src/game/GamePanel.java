@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
                 g2D.drawImage(r.image, r.transform, null);
             }
             else {
-                g.drawImage(r.image, r.x, r.y, null);
+                g.drawImage(r.image, r.x, r.y,null);
             }
 
         if (!game.started) {
