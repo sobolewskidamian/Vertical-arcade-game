@@ -38,7 +38,6 @@ public class Square {
         dead = false;
         rotation = false;
         rotationInt = 0;
-
         keyboard = Keyboard.getInstance();
     }
 

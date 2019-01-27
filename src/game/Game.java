@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Game {
     private int restartDelay;
 
-    private Square square;
+    Square square;
     private Keyboard keyboard;
     private ArrayList<Pipe> pipes;
     private ArrayList<Pipe> pipesUnderMiddle;
@@ -14,6 +14,7 @@ public class Game {
     private ArrayList<Blocker> blockers;
 
     public int score;
+    int highScore;
     public Boolean gameover;
     public Boolean started;
 
@@ -47,8 +48,6 @@ public class Game {
         this.square.update();
 
         if (gameover) {
-            //square.yvel = 0;
-            //square.xvel = 0;
             square.rotation = true;
             shake();
             return;
@@ -56,6 +55,7 @@ public class Game {
 
         movePipes();
         checkForCollisions();
+        setHighScore();
     }
 
     public ArrayList<Render> getRenders() {
@@ -115,8 +115,10 @@ public class Game {
         }
 
         for (Blocker blocker : blockers)
-            if (blocker.y > App.height)
+            if (blocker.y > App.height) {
                 blockers.remove(blocker);
+                break;
+            }
 
         if ((blockerBool && pipesUnderMiddleMiddle.size() != 0)) {
             addBolcker();
@@ -194,5 +196,23 @@ public class Game {
         for (Blocker blocker : blockers) {
             blocker.shake();
         }
+    }
+
+    void deleteAllPipesAndBlockers() {
+        ArrayList<Pipe> toDeletePipes = new ArrayList<>();
+        ArrayList<Blocker> toDeleteBlockers = new ArrayList<>();
+        for (Pipe pipe : pipes)
+            toDeletePipes.add(pipe);
+        for (Blocker blocker : blockers)
+            toDeleteBlockers.add(blocker);
+        for (Pipe act : toDeletePipes)
+            pipes.remove(act);
+        for (Blocker act : toDeleteBlockers)
+            blockers.remove(act);
+    }
+
+    void setHighScore() {
+        if (score > highScore)
+            highScore = score;
     }
 }

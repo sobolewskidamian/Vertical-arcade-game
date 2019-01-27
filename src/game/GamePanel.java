@@ -24,22 +24,24 @@ public class GamePanel extends JPanel implements Runnable {
         for (Render r : game.getRenders())
             if (r.transform != null) {
                 g2D.drawImage(r.image, r.transform, null);
-            }
-            else {
-                g.drawImage(r.image, r.x, r.y,null);
+            } else {
+                g.drawImage(r.image, r.x, r.y, null);
             }
 
         if (!game.started) {
             g2D.setFont(new Font("Arial", Font.PLAIN, 20));
             g2D.drawString("Press \"<\" or \">\" to start", 10, 30);
-        } else {
+        } else if (!game.gameover || game.square.y <= App.height) {
             g2D.setFont(new Font("Arial", Font.PLAIN, 24));
             g2D.drawString(Integer.toString(game.score), App.width - 60, 30);
         }
 
-        if (game.gameover) {
+        if (game.gameover && game.square.y > App.height) {
+            game.deleteAllPipesAndBlockers();
             g2D.setFont(new Font("Arial", Font.PLAIN, 20));
             g2D.drawString("Press Space to restart", 10, 30);
+            g2D.drawString("Your score: " + game.score, 10, 200);
+            g2D.drawString("High score: " + game.highScore, 10, 240);
         }
     }
 
