@@ -8,7 +8,6 @@ public class App {
     static int width = 400;
     static int height = 600;
     private static Point initialClick;
-    static String nick = "";
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
@@ -31,29 +30,34 @@ public class App {
         frame.add(b, BorderLayout.AFTER_LAST_LINE);
 
         frame.setVisible(true);
-
         GamePanel panel = new GamePanel();
 
+        ButtonListener listener = new ButtonListener();
+        b.addActionListener(listener);
 
-        while (nick.equals("")) {
-            b.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    nick = a.getText();
-                }
-            });
+        String nickFromListener = listener.nick;
+
+        while (nickFromListener.equals("")) {
+            listener.aText = a.getText();
+            nickFromListener = listener.nick;
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        panel.game.nick = nick;
+
+        panel.game.nick = nickFromListener;
         panel.game.nickSet = true;
         a.setVisible(false);
         b.setVisible(false);
-        label1.setVisible(false);
+
         frame.setVisible(false);
-
         frame.setVisible(true);
-
+        frame.add(panel);
+        frame.setVisible(true);
         Keyboard keyboard = Keyboard.getInstance();
         frame.addKeyListener(keyboard);
-        frame.add(panel);
     }
 
     public static JTextArea createTextArea(int width, int height, int xPos, int yPos) {
