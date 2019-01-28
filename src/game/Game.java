@@ -52,15 +52,13 @@ public class Game {
 
         this.square.update();
 
-        if (gameover && rankingDidntSet) {
-            ranking = Ranking.parse(nick, score);
-            rankingDidntSet = false;
-        }
-
-
         if (gameover) {
             square.rotation = true;
             shake();
+            if (square.y > App.height + square.height && rankingDidntSet) {
+                ranking = Ranking.parse(nick, score);
+                rankingDidntSet = false;
+            }
             return;
         }
 

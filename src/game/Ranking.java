@@ -9,7 +9,7 @@ public class Ranking {
     static String parse(String nick, int score) {
         Document document = null;
         try {
-            document = Jsoup.connect("http://przypomnienia.cba.pl/javaAPP/ranking.php?nick=" + nick + "&score=" + score).timeout(1000).get();
+            document = Jsoup.connect("http://przypomnienia.cba.pl/javaAPP/ranking.php?nick=" + nick + "&score=" + score).timeout(2000).get();
         } catch (IOException e) {
             System.out.println("Brak internetu");
         }

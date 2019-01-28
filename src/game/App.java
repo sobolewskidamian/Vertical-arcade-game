@@ -18,13 +18,18 @@ public class App {
         frame.setSize(width, height);
         moveByMouse(frame);
 
-        JTextArea a = createTextArea(20, 20, 0, 50);
-        JButton b = createButton(20, 20, 0, 60, "Graj");
-        JLabel label1 = new JLabel("Wpisz nick: ");
+        JTextArea a = createTextArea(width, 28, 0, height / 2 + 10);
+        a.setFont(new Font("Arial", Font.PLAIN, 20));
+        JButton b = createButton(100, 10, 0, 60, "Play!");
+        b.setFont(new Font("Arial", Font.PLAIN, 20));
+        JLabel label1 = new JLabel("Enter your nick: ");
+        label1.setFont(new Font("Arial", Font.BOLD, 20));
         label1.setVisible(true);
-        frame.add(label1);
-        frame.add(a, BorderLayout.NORTH);
+
+        frame.add(label1, BorderLayout.CENTER);
+        frame.add(a, BorderLayout.AFTER_LAST_LINE);
         frame.add(b, BorderLayout.AFTER_LAST_LINE);
+
         frame.setVisible(true);
 
         GamePanel panel = new GamePanel();
