@@ -13,6 +13,7 @@ public abstract class Obstruction {
     private boolean shake;
     private int deltaShake;
     private int amountOfShakes;
+    boolean shaked=false;
 
     Obstruction(Square square) {
         this.gravity = 0.5;
@@ -65,5 +66,7 @@ public abstract class Obstruction {
 
             amountOfShakes++;
         }
+        else
+            shaked=true;
     }
 }
