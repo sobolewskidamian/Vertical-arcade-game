@@ -5,17 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
-    JTextArea a;
+    JTextArea textArea;
     String nick;
     String aText;
 
-    public ButtonListener() {
+    public ButtonListener(JTextArea textArea) {
         this.nick = "";
         this.aText = "";
+        this.textArea = textArea;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.nick = this.aText;
+        this.nick = textArea.getText();
     }
 }

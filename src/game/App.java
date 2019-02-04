@@ -10,23 +10,26 @@ public class App {
     private static Point initialClick;
 
     static JFrame frame;
-    static JTextArea a;
-    static JLabel label1;
-    static JButton b;
+    static JTextArea textArea;
+    static JLabel label;
+    static JButton button;
 
     public static void main(String[] args) {
-        frame = createJFrame();
+        Keyboard keyboard = Keyboard.getInstance();
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        frame = createJFrame(new Point(dimension.width / 2 - width / 2, dimension.height / 2 - height / 2));
         frame.setLayout(null);
         createNickSite();
         frame.setVisible(true);
 
-        ButtonListener listener = new ButtonListener();
-        b.addActionListener(listener);
+        ButtonListener listener = new ButtonListener(textArea);
+        button.addActionListener(listener);
+        textArea.addKeyListener(keyboard);
 
-        String nickFromListener = listener.nick;
-        while (nickFromListener.equals("")) {
-            listener.aText = a.getText();
-            nickFromListener = listener.nick;
+        String nickFromListener;
+        while ((nickFromListener = listener.nick).equals("")) {
+            if (nickFromListener.equals("") && keyboard.isDown(KeyEvent.VK_ENTER))
+                listener.nick = textArea.getText();
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -34,38 +37,39 @@ public class App {
             }
         }
 
-        frame = createJFrame();
+        frame.setVisible(false);
 
-        Keyboard keyboard = Keyboard.getInstance();
-        frame.addKeyListener(keyboard);
+        frame = createJFrame(frame.getLocation());
+        frame.addKeyListener(Keyboard.getInstance());
 
         GamePanel panel = new GamePanel();
-        panel.game.nick = nickFromListener;
+        panel.game.nick = removeLineSeparator(nickFromListener);
         panel.game.nickSet = true;
         frame.add(panel);
         frame.setVisible(true);
     }
 
     private static void createNickSite() {
-        a = createTextArea(width - 40, 28, 20, height / 2 + 20);
-        label1 = createLabel(width - 40, 40, 20, height / 2 - 20, "Enter your nick: ");
-        b = createButton(80, 35, width / 2 - 40, height / 2 + 60, "Play!");
+        textArea = createTextArea(width - 40, 28, 20, height / 2 + 20);
+        label = createLabel(width - 40, 40, 20, height / 2 - 20, "Enter your nick: ");
+        button = createButton(80, 35, width / 2 - 40, height / 2 + 60, "Play!");
 
-        a.setFont(new Font("Arial", Font.PLAIN, 20));
-        b.setFont(new Font("Arial", Font.PLAIN, 20));
-        label1.setFont(new Font("Arial", Font.BOLD, 20));
+        textArea.setFont(new Font("Arial", Font.PLAIN, 20));
+        button.setFont(new Font("Arial", Font.PLAIN, 20));
+        label.setFont(new Font("Arial", Font.BOLD, 20));
 
-        frame.add(label1);
-        frame.add(a);
-        frame.add(b);
+        frame.add(label);
+        frame.add(textArea);
+        frame.add(button);
     }
 
-    private static JFrame createJFrame() {
+    private static JFrame createJFrame(Point point) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.dispose();
         frame.setUndecorated(true);
         frame.setSize(width, height);
+        frame.setLocation(point);
         moveByMouse(frame);
         return frame;
     }
@@ -110,5 +114,9 @@ public class App {
                 frame.setLocation(X, Y);
             }
         });
+    }
+
+    private static String removeLineSeparator(String str) {
+        return str.replaceAll("\r", "").replaceAll("\n", "");
     }
 }
