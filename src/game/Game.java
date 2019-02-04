@@ -15,7 +15,7 @@ public class Game {
     int highScore;
     Boolean gameover;
     Boolean started;
-    String ranking;
+    static String ranking;
     Boolean rankingDidntSet;
     Boolean nickSet;
     String nick;

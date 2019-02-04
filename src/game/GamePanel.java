@@ -6,10 +6,12 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable {
 
     Game game;
+    private Ranking ranking;
 
     public GamePanel() {
         this.game = new Game();
         new Thread(this).start();
+        ranking = new Ranking();
     }
 
     private void update() {
@@ -36,6 +38,12 @@ public class GamePanel extends JPanel implements Runnable {
             g2D.drawString(Integer.toString(game.score), App.width - 60, 30);
         }
 
+        if (game.gameover && game.rankingDidntSet) {
+            ranking.setNickAndScore(game.nick, game.score);
+            new Thread(ranking).start();
+            game.rankingDidntSet = false;
+        }
+
         if (game.gameover && game.square.y > App.height + game.square.height) {
             game.deleteAllPipesAndBlockers();
             g2D.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -43,10 +51,6 @@ public class GamePanel extends JPanel implements Runnable {
             g2D.drawString("Your score: " + game.score, 10, 200);
             g2D.drawString("High score: " + game.highScore, 10, 240);
 
-            if(game.rankingDidntSet) {
-                game.ranking = Ranking.parse(game.nick, game.score);
-                game.rankingDidntSet = false;
-            }
             if (!game.ranking.equals("")) {
                 g2D.setFont(new Font("Arial", Font.BOLD, 13));
                 g2D.drawString("Top 10:", 10, 300);

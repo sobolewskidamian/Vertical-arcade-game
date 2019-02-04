@@ -5,11 +5,27 @@ import org.jsoup.nodes.*;
 
 import java.io.IOException;
 
-public class Ranking {
-    static String parse(String nick, int score) {
-        String result = "";
+public class Ranking implements Runnable {
+    String nick;
+    int score;
+    private String result;
+
+    public Ranking() {
+        nick = "";
+        result = "";
+        score = 0;
+    }
+
+    void setNickAndScore(String nick, int score) {
+        this.nick = nick;
+        this.score = score;
+    }
+
+    @Override
+    public void run() {
+        result = "";
         try {
-            Document document = Jsoup.connect("http://przypomnienia.cba.pl/javaAPP/ranking.php?nick=" + nick + "&score=" + score).timeout(2000).get();
+            Document document = Jsoup.connect("http://przypomnienia.cba.pl/javaAPP/ranking.php?nick=" + nick + "&score=" + score).get();
             if (document != null) {
                 for (Element actualElement : document.select("tr")) {
                     result += actualElement.select("td#score").text();
@@ -21,6 +37,6 @@ public class Ranking {
         } catch (IOException e) {
             result = "No connection";
         }
-        return result;
+        Game.ranking = result;
     }
 }
