@@ -6,26 +6,28 @@ import org.jsoup.nodes.*;
 import java.io.IOException;
 
 public class Ranking implements Runnable {
-    String nick;
-    int score;
+    private String nick;
+    private int score;
+    private int highScore;
     private String result;
 
-    public Ranking() {
+    Ranking() {
         nick = "";
         result = "";
         score = 0;
     }
 
-    void setNickAndScore(String nick, int score) {
+    void setNickAndScore(String nick, int score, int highScore) {
         this.nick = nick;
         this.score = score;
+        this.highScore = highScore;
     }
 
     @Override
     public void run() {
         result = "";
         try {
-            Document document = Jsoup.connect("http://przypomnienia.cba.pl/javaAPP/ranking.php?nick=" + nick + "&score=" + score + "&maxscore=" + Game.highScore).get();
+            Document document = Jsoup.connect("http://przypomnienia.cba.pl/javaAPP/ranking.php?nick=" + nick + "&score=" + score + "&maxscore=" + highScore).get();
             if (document != null) {
                 for (Element actualElement : document.select("tr")) {
                     result += actualElement.select("td#score").text();

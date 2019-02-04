@@ -12,7 +12,7 @@ public class Game {
     private ArrayList<Blocker> blockers;
     Square square;
     int score;
-    static int highScore;
+    int highScore;
     Boolean gameover;
     Boolean started;
     static String ranking;
@@ -21,7 +21,7 @@ public class Game {
     String nick;
 
 
-    public Game() {
+    Game() {
         keyboard = Keyboard.getInstance();
         nickSet = false;
         nick = "";
@@ -38,7 +38,7 @@ public class Game {
         pipesUnderMiddle = new ArrayList<>();
         pipesUnderMiddleMiddle = new ArrayList<>();
         blockers = new ArrayList<>();
-        ranking = "";
+        ranking = "Loading...";
         rankingDidntSet = true;
     }
 

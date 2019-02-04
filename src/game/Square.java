@@ -19,7 +19,7 @@ public class Square {
     private int jumpDelay;
     private Keyboard keyboard;
 
-    public Square() {
+    Square() {
         yvel = 0;
         xvel = 0;
         xvalue = 3;

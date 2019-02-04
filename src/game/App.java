@@ -9,34 +9,21 @@ public class App {
     static int height = 600;
     private static Point initialClick;
 
+    static JFrame frame;
+    static JTextArea a;
+    static JLabel label1;
+    static JButton b;
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.dispose();
-        frame.setUndecorated(true);
-        frame.setSize(width, height);
-        moveByMouse(frame);
-
-        JTextArea a = createTextArea(width, 28, 0, height / 2 + 10);
-        a.setFont(new Font("Arial", Font.PLAIN, 20));
-        JButton b = createButton(100, 10, 0, 60, "Play!");
-        b.setFont(new Font("Arial", Font.PLAIN, 20));
-        JLabel label1 = new JLabel("Enter your nick: ");
-        label1.setFont(new Font("Arial", Font.BOLD, 20));
-        label1.setVisible(true);
-
-        frame.add(label1, BorderLayout.CENTER);
-        frame.add(a, BorderLayout.AFTER_LAST_LINE);
-        frame.add(b, BorderLayout.AFTER_LAST_LINE);
-
+        frame = createJFrame();
+        frame.setLayout(null);
+        createNickSite();
         frame.setVisible(true);
-        GamePanel panel = new GamePanel();
 
         ButtonListener listener = new ButtonListener();
         b.addActionListener(listener);
 
         String nickFromListener = listener.nick;
-
         while (nickFromListener.equals("")) {
             listener.aText = a.getText();
             nickFromListener = listener.nick;
@@ -47,32 +34,59 @@ public class App {
             }
         }
 
-        panel.game.nick = nickFromListener;
-        panel.game.nickSet = true;
-        a.setVisible(false);
-        b.setVisible(false);
+        frame = createJFrame();
 
-        frame.setVisible(false);
-        frame.setVisible(true);
-        frame.add(panel);
-        frame.setVisible(true);
         Keyboard keyboard = Keyboard.getInstance();
         frame.addKeyListener(keyboard);
+
+        GamePanel panel = new GamePanel();
+        panel.game.nick = nickFromListener;
+        panel.game.nickSet = true;
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
-    public static JTextArea createTextArea(int width, int height, int xPos, int yPos) {
+    private static void createNickSite() {
+        a = createTextArea(width - 40, 28, 20, height / 2 + 20);
+        label1 = createLabel(width - 40, 40, 20, height / 2 - 20, "Enter your nick: ");
+        b = createButton(80, 35, width / 2 - 40, height / 2 + 60, "Play!");
+
+        a.setFont(new Font("Arial", Font.PLAIN, 20));
+        b.setFont(new Font("Arial", Font.PLAIN, 20));
+        label1.setFont(new Font("Arial", Font.BOLD, 20));
+
+        frame.add(label1);
+        frame.add(a);
+        frame.add(b);
+    }
+
+    private static JFrame createJFrame() {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.dispose();
+        frame.setUndecorated(true);
+        frame.setSize(width, height);
+        moveByMouse(frame);
+        return frame;
+    }
+
+    private static JTextArea createTextArea(int width, int height, int xPos, int yPos) {
         JTextArea txt = new JTextArea();
-        txt.setVisible(true);
         txt.setBackground(Color.WHITE);
         txt.setBounds(xPos, yPos, width, height);
         return txt;
     }
 
-    public static JButton createButton(int width, int height, int xPos, int yPos, String text) {
+    private static JButton createButton(int width, int height, int xPos, int yPos, String text) {
         JButton button = new JButton(text);
         button.setBounds(xPos, yPos, width, height);
-        button.setVisible(true);
         return button;
+    }
+
+    private static JLabel createLabel(int width, int height, int xPos, int yPos, String text) {
+        JLabel label = new JLabel(text);
+        label.setBounds(xPos, yPos, width, height);
+        return label;
     }
 
     private static void moveByMouse(JFrame frame) {

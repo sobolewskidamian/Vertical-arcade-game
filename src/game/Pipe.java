@@ -13,7 +13,7 @@ public class Pipe extends Obstruction {
     private int score;
     private Color color;
 
-    public Pipe(String orientation, Square square, int score) {
+    Pipe(String orientation, Square square, int score) {
         super(square);
         this.orientation = orientation;
         this.score = score;
@@ -46,10 +46,8 @@ public class Pipe extends Obstruction {
     }
 
     boolean collides(int x, int y, int width, int height) {
-        if (y + height >= this.y && y <= this.y + this.height) {
-            if ((orientation.equals("left") && x <= this.width) || (orientation.equals("right") && x + width >= this.x))
-                return true;
-        }
+        if (y + height >= this.y && y <= this.y + this.height)
+            return (orientation.equals("left") && x <= this.width) || (orientation.equals("right") && x + width >= this.x);
         return false;
     }
 

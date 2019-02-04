@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         if (game.gameover && game.rankingDidntSet) {
-            ranking.setNickAndScore(game.nick, game.score);
+            ranking.setNickAndScore(game.nick, game.score, game.highScore);
             new Thread(ranking).start();
             game.rankingDidntSet = false;
         }
@@ -51,11 +51,11 @@ public class GamePanel extends JPanel implements Runnable {
             g2D.drawString("Your score: " + game.score, 10, 200);
             g2D.drawString("High score: " + game.highScore, 10, 240);
 
-            if (!game.ranking.equals("")) {
+            if (!Game.ranking.equals("")) {
                 g2D.setFont(new Font("Arial", Font.BOLD, 13));
                 g2D.drawString("Top 10:", 10, 300);
                 g2D.setFont(new Font("Arial", Font.PLAIN, 13));
-                drawString(g2D, game.ranking, 10, 310);
+                drawString(g2D, Game.ranking, 10, 310);
             }
         }
     }
