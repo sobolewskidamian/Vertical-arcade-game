@@ -9,10 +9,10 @@ public class App {
     static int height = 600;
     private static Point initialClick;
 
-    static JFrame frame;
-    static JTextArea textArea;
-    static JLabel label;
-    static JButton button;
+    private static JFrame frame;
+    private static JTextArea textArea;
+    private static JLabel label;
+    private static JButton button;
 
     public static void main(String[] args) {
         Keyboard keyboard = Keyboard.getInstance();
@@ -71,18 +71,22 @@ public class App {
         frame.setSize(width, height);
         frame.setLocation(point);
         moveByMouse(frame);
+        frame.setBackground(Color.WHITE);
+        frame.getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
         return frame;
     }
 
     private static JTextArea createTextArea(int width, int height, int xPos, int yPos) {
         JTextArea txt = new JTextArea();
         txt.setBackground(Color.WHITE);
+        txt.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.LIGHT_GRAY));
         txt.setBounds(xPos, yPos, width, height);
         return txt;
     }
 
     private static JButton createButton(int width, int height, int xPos, int yPos, String text) {
         JButton button = new JButton(text);
+        button.setBackground(Color.WHITE);
         button.setBounds(xPos, yPos, width, height);
         return button;
     }
