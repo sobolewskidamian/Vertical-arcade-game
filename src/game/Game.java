@@ -12,7 +12,7 @@ public class Game {
     private ArrayList<Blocker> blockers;
     Square square;
     int score;
-    int highScore;
+    static int highScore;
     Boolean gameover;
     Boolean started;
     static String ranking;

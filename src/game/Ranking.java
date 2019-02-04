@@ -25,7 +25,7 @@ public class Ranking implements Runnable {
     public void run() {
         result = "";
         try {
-            Document document = Jsoup.connect("http://przypomnienia.cba.pl/javaAPP/ranking.php?nick=" + nick + "&score=" + score).get();
+            Document document = Jsoup.connect("http://przypomnienia.cba.pl/javaAPP/ranking.php?nick=" + nick + "&score=" + score + "&maxscore=" + Game.highScore).get();
             if (document != null) {
                 for (Element actualElement : document.select("tr")) {
                     result += actualElement.select("td#score").text();
