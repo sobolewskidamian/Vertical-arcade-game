@@ -27,7 +27,7 @@ public class App {
         textArea.addKeyListener(keyboard);
 
         String nickFromListener;
-        while ((nickFromListener = listener.nick).equals("")) {
+        while ((nickFromListener = removeLineSeparator(listener.nick)).equals("")) {
             if (nickFromListener.equals("") && keyboard.isDown(KeyEvent.VK_ENTER))
                 listener.nick = textArea.getText();
             try {
@@ -43,7 +43,7 @@ public class App {
         frame.addKeyListener(Keyboard.getInstance());
 
         GamePanel panel = new GamePanel();
-        panel.game.nick = removeLineSeparator(nickFromListener);
+        panel.game.nick = nickFromListener;
         panel.game.nickSet = true;
         frame.add(panel);
         frame.setVisible(true);
@@ -71,7 +71,6 @@ public class App {
         frame.setSize(width, height);
         frame.setLocation(point);
         moveByMouse(frame);
-        frame.setBackground(Color.WHITE);
         frame.getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
         return frame;
     }

@@ -33,7 +33,7 @@ public class Game {
         gameover = false;
         score = 0;
         restartDelay = 0;
-        square = new Square();
+        square = new Square(this);
         pipes = new ArrayList<>();
         pipesUnderMiddle = new ArrayList<>();
         pipesUnderMiddleMiddle = new ArrayList<>();
