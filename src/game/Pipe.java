@@ -53,7 +53,7 @@ public class Pipe extends Obstruction {
 
     private void setColor() {
         switch ((score / 5) % 5) {
-            case 0:
+            /*case 0:
                 color = new Color(255, 14, 24);
                 break;
             case 1:
@@ -67,6 +67,21 @@ public class Pipe extends Obstruction {
                 break;
             default:
                 color = new Color(255, 126, 42);
+                break;*/
+            case 0:
+                color = new Color(0, 0, 0);
+                break;
+            case 1:
+                color = new Color(255, 0, 0);
+                break;
+            case 2:
+                color = new Color(255, 0, 255);
+                break;
+            case 3:
+                color = new Color(0, 255, 255);
+                break;
+            default:
+                color = new Color(0, 255, 0);
                 break;
         }
     }
